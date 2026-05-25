@@ -10,7 +10,6 @@ Usage::
 
 from __future__ import annotations
 
-import hashlib
 import re
 import sys
 import time
@@ -335,19 +334,6 @@ def write_tables_az(
     (OUT / "tables_az.md").write_text("\n".join(lines), encoding="utf-8")
 
 
-def compare_phd_csv(phd_df: pd.DataFrame, path: Path) -> str:
-    if not path.is_file():
-        return "bundled CSV not found (skipped)"
-    ref = pd.read_csv(path)
-    if ref.shape != phd_df.shape:
-        return f"shape mismatch repo={phd_df.shape} csv={ref.shape}"
-    digest_new = hashlib.sha256(phd_df.to_csv(index=False).encode()).hexdigest()[:12]
-    digest_ref = hashlib.sha256(ref.to_csv(index=False).encode()).hexdigest()[:12]
-    if digest_new == digest_ref:
-        return "matches data/silurus_glanis_phd_dataset_v2.csv"
-    return f"differs from bundled CSV (new={digest_new}, ref={digest_ref})"
-
-
 def main() -> int:
     t0 = time.time()
     settings = get_settings()
@@ -363,9 +349,7 @@ def main() -> int:
     static_df = merge_static(synthetic_dict)
     storage_df = merge_storage(synthetic_dict)
     phd_df = generate_phd_dataset(n_per_group=n_per_group, seed=seed)
-
-    phd_check = compare_phd_csv(phd_df, ROOT / "data" / "silurus_glanis_phd_dataset_v2.csv")
-    print(f"  PHD dataset check: {phd_check}")
+    print(f"  PHD dataset: {phd_df.shape[0]} rows")
 
     marginal = marginal_relative_errors(df_dict, synthetic_dict)
     marginal.to_csv(OUT / "marginal_relative_error.csv", index=False)

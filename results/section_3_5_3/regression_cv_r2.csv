@@ -1,7 +1,0 @@
-target,experiment,model,cv_r2_mean,cv_r2_std,draft_r2,delta_vs_draft
-Lipid (%),R2_Water→Lipids,Ridge,0.9003,0.0039,0.91,-0.0097
-Lipid (%),R2_Water→Lipids,Random Forest,0.8927,0.0069,0.9,-0.0073
-Body mass (g),R3_Water→Bodymass,Ridge,0.6359,0.0203,0.68,-0.0441
-Body mass (g),R3_Water→Bodymass,Random Forest,0.6214,0.0161,0.67,-0.0486
-Protein (%),R1_Water→Protein,Ridge,0.4359,0.0047,0.39,0.0459
-Protein (%),R1_Water→Protein,Random Forest,0.4055,0.0168,0.37,0.0355

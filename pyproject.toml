@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "caspian_fish_quality"
-version = "0.1.1"
+version = "0.1.2"
 description = "Synthetic-data + ML pipeline for sturgeon and herring quality in Azerbaijani Caspian waters."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -46,14 +46,6 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-docs = [
-  "sphinx>=7",
-  "furo>=2024.5",
-  "myst-parser>=3.0",
-  "linkify-it-py>=2.0",
-  "sphinx-autodoc-typehints>=2.2",
-  "sphinx-copybutton>=0.5",
-]
 test = [
   "pytest>=8",
   "pytest-cov>=5",
@@ -74,7 +66,7 @@ dev = [
 [project.urls]
 Homepage = "https://github.com/ulya1202/caspian-fish-quality"
 Repository = "https://github.com/ulya1202/caspian-fish-quality"
-Documentation = "https://caspian-fish-quality.readthedocs.io/"
+Documentation = "https://github.com/ulya1202/caspian-fish-quality#readme"
 Issues = "https://github.com/ulya1202/caspian-fish-quality/issues"
 
 [tool.hatch.build.targets.wheel]
@@ -87,12 +79,12 @@ packages = ["src/caspian_fish_quality"]
 include = [
   "src/caspian_fish_quality",
   "tests",
-  "docs",
+  "scripts",
+  "notebooks",
   "README.md",
   "LICENSE",
-  "CHANGELOG.md",
+  "LIMITATIONS.md",
   "CITATION.cff",
-  "REFERENCES.bib",
   "pyproject.toml",
 ]
 
@@ -100,7 +92,7 @@ include = [
 line-length = 100
 target-version = "py310"
 src = ["src", "tests"]
-extend-exclude = ["docs/_build", "build", "dist"]
+extend-exclude = ["build", "dist"]
 
 [tool.ruff.lint]
 select = [
@@ -136,7 +128,6 @@ convention = "numpy"
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["D100", "D101", "D102", "D103", "D104", "ANN", "PLR2004", "N802"]
-"docs/conf.py" = ["D100", "ANN"]
 
 [tool.mypy]
 python_version = "3.10"

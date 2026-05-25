@@ -43,10 +43,6 @@ coverage.xml
 .pytest_cache/
 cover/
 
-# Sphinx documentation
-docs/_build/
-docs/api/_autosummary/
-
 # Jupyter Notebook
 .ipynb_checkpoints/
 *.ipynb_checkpoints
@@ -57,10 +53,8 @@ feature_importance*.csv
 synthetic_*.csv
 transfer_results.csv
 
-# Frozen dissertation results (committed under results/section_3_5_3/)
-results/*
-!results/section_3_5_3/
-!results/section_3_5_3/**
+# Generated reproduction outputs (run scripts/reproduce_section_3_5_3.py)
+results/
 
 # pyenv / venv
 .python-version

@@ -40,7 +40,7 @@ from caspian_fish_quality.transfer.sturgeon_eval import (
     run_transfer_test,
 )
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 
 __all__ = [
     "SturgeonCase",

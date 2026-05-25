@@ -23,7 +23,7 @@ keywords:
   - kilka
   - Silurus-glanis
 license: MIT
-version: 0.1.1
+version: 0.1.2
 date-released: "2026-04-27"
 url: "https://github.com/ulya1202/caspian-fish-quality"
 repository-code: "https://github.com/ulya1202/caspian-fish-quality"
@@ -38,5 +38,5 @@ preferred-citation:
       given-names: ""
       email: candidate@example.az
   year: 2026
-  version: 0.1.1
+  version: 0.1.2
   url: "https://github.com/ulya1202/caspian-fish-quality"
