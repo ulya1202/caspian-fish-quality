@@ -47,6 +47,9 @@ cover/
 .ipynb_checkpoints/
 *.ipynb_checkpoints
 
+# Streamlit local secrets
+.streamlit/secrets.toml
+
 # Local scratch outputs (regenerate via scripts/run_pipeline.py)
 ml_results*.csv
 feature_importance*.csv

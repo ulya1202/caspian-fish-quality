@@ -4,6 +4,20 @@ Synthetic-data and machine-learning pipeline for *Silurus glanis* (European wels
 
 **Repository:** https://github.com/ulya1202/caspian-fish-quality
 
+## Canlı demo (müdafiə)
+
+| Link | Təsvir |
+|------|--------|
+| [Layihə səhifəsi](https://ulya1202.github.io/caspian-fish-quality/) | Qısa AZ təqdimat + linklər |
+| [Canlı demo (Streamlit)](https://caspian-fish-quality.streamlit.app) | İnteraktiv: proqnoz, transfer, cədvəllər |
+
+Lokal demo:
+
+```bash
+pip install -e ".[demo,test]"
+streamlit run app/streamlit_app.py
+```
+
 ---
 
 ## Clone and reproduce (§3.5.3)
@@ -72,6 +86,8 @@ src/caspian_fish_quality/
   merge/              static / storage frames
   ml/                 CV experiments
   transfer/           sturgeon zero-shot evaluation
+app/
+  streamlit_app.py    # canlı müdafiə demosu (AZ)
 scripts/
   reproduce_section_3_5_3.py   # main reproduction entry point
   run_pipeline.py              # optional smoke test
@@ -88,7 +104,7 @@ CITATION.cff
 
 Update author fields in [CITATION.cff](CITATION.cff), then use GitHub “Cite this repository” or:
 
-> Aliyeva, U. (2026). *caspian_fish_quality* (Version 0.1.2) [Computer software]. https://github.com/ulya1202/caspian-fish-quality
+> Aliyeva, U. (2026). *caspian_fish_quality* (Version 0.1.3) [Computer software]. https://github.com/ulya1202/caspian-fish-quality
 
 ## License
 
