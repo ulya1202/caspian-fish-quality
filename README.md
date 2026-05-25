@@ -78,14 +78,14 @@ For end-to-end orchestration, see
 ## Project layout
 
 ```
-src/caspian_fish_quality/
-  eda/         column parsing, regex extraction, EDA helpers
-  synth/       SEM/SD conversion, truncated normal, Gaussian copula
-  merge/       static and storage table mergers
-  ml/          leakage-free Pipeline factories, models, CV, metrics
-  transfer/    Silurus glanis -> Acipenser/Huso evaluation
-  validation/  KS, MWU, Frobenius, Wasserstein, TSTR
-  data/        literature CSVs (Silurus glanis priors)
+src/caspian_fish_quality/   installable package source
+  data/literature/          Silurus glanis literature priors (data_1–6)
+data/                       synthetic reference CSVs (see data/README.md)
+notebooks/                  canonical analysis notebook
+archive/                    legacy Colab notebook (historical only)
+docs/                       Sphinx documentation sources
+scripts/                    run_pipeline.py end-to-end smoke test
+tests/                      pytest suite
 ```
 
 ## Citing

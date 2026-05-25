@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.0] - 2026-04-27
 
 ### Added
-- Initial release migrated from `syntetic_fish_cleaned.ipynb`.
+- Initial release migrated from `notebooks/syntetic_fish_cleaned.ipynb`.
 - `eda` subpackage with column parsing, scientific-notation cleaning, and
   ± splitter helpers.
 - `synth` subpackage:

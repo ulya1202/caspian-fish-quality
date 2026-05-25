@@ -48,7 +48,14 @@ docs/_build/
 docs/api/_autosummary/
 
 # Jupyter Notebook
-.ipynb_checkpoints
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Local scratch outputs (regenerate via scripts/run_pipeline.py)
+ml_results*.csv
+feature_importance*.csv
+synthetic_*.csv
+transfer_results.csv
 
 # pyenv / venv
 .python-version

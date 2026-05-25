@@ -59,7 +59,7 @@ from caspian_fish_quality.validation import (
 )
 from caspian_fish_quality.validation.joint import empirical_correlation
 
-real = pd.read_csv("silurus_glanis_phd_dataset_v2 (1).csv")
+real = pd.read_csv("data/silurus_glanis_phd_dataset_v2.csv")
 ks = ks_per_variable(real, phd_df, adjust="bonferroni")
 w1 = wasserstein_per_variable(real, phd_df)
 
