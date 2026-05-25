@@ -30,6 +30,8 @@ This runs (~1–2 minutes):
 
 ```
 results/section_3_5_3/
+  RUN_REPORT.md             # Auto report for this run (AZ)
+  RUN_REPORT.txt            # Same report as plain text
   tables_az.md              # Paste-ready Azerbaijani table snippets
   regression_cv_r2.csv      # Table 3.5.6
   transfer_table_3_5_7.csv  # Table 3.5.7
@@ -86,7 +88,7 @@ CITATION.cff
 
 Update author fields in [CITATION.cff](CITATION.cff), then use GitHub “Cite this repository” or:
 
-> Author. (2026). *caspian_fish_quality* (Version 0.1.1) [Computer software]. https://github.com/ulya1202/caspian-fish-quality
+> Aliyeva, U. (2026). *caspian_fish_quality* (Version 0.1.2) [Computer software]. https://github.com/ulya1202/caspian-fish-quality
 
 ## License
 

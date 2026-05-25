@@ -4,9 +4,8 @@ message: >-
   If you use this software, please cite it as below.
 type: software
 authors:
-  - family-names: PhD Candidate
-    given-names: ""
-    email: candidate@example.az
+  - family-names: Aliyeva
+    given-names: Ulviyya
     affiliation: Azerbaijan
 abstract: >-
   Synthetic-data and machine-learning pipeline for sturgeon and herring
@@ -34,9 +33,8 @@ preferred-citation:
   type: software
   title: caspian_fish_quality
   authors:
-    - family-names: PhD Candidate
-      given-names: ""
-      email: candidate@example.az
+    - family-names: Aliyeva
+      given-names: Ulviyya
   year: 2026
   version: 0.1.2
   url: "https://github.com/ulya1202/caspian-fish-quality"

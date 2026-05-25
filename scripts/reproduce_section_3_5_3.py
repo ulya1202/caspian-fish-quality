@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Reproduce dissertation section 3.5.3 tables from the canonical pipeline.
 
-Writes CSV summaries and ``tables_az.md`` under ``results/section_3_5_3/``.
+Writes CSV summaries, ``RUN_REPORT.md`` (auto run report), and
+``tables_az.md`` under ``results/section_3_5_3/``.
 
 Usage::
 
@@ -13,6 +14,7 @@ from __future__ import annotations
 import re
 import sys
 import time
+from datetime import UTC, datetime
 from pathlib import Path
 
 import numpy as np
@@ -334,15 +336,200 @@ def write_tables_az(
     (OUT / "tables_az.md").write_text("\n".join(lines), encoding="utf-8")
 
 
+def write_run_report(
+    *,
+    run_id: str,
+    elapsed_s: float,
+    seed: int,
+    n_per_group: int,
+    package_version: str,
+    synthetic_dict: dict[int, pd.DataFrame],
+    phd_df: pd.DataFrame,
+    full_shape: tuple[int, int],
+    table_36: pd.DataFrame,
+    table_37: pd.DataFrame,
+    mape_summary: pd.DataFrame,
+    marginal: pd.DataFrame,
+    cls: pd.DataFrame,
+    reg: pd.DataFrame,
+    models_available: list[str],
+) -> str:
+    """Write bilingual run report; return full text for console."""
+    n_total = n_per_group * 2
+    syn_lines = [
+        f"| Cədvəl {k} | {len(v)} sətir | {', '.join(sorted(v['group'].unique()))} |"
+        for k, v in sorted(synthetic_dict.items())
+    ]
+
+    lines: list[str] = [
+        "# Run report — caspian_fish_quality §3.5.3",
+        "",
+        "Bu fayl **bu konkret işə salınma** üzrə avtomatik yaradılıb.",
+        "Hər `python scripts/reproduce_section_3_5_3.py` çağırışı yeni hesabat yazır.",
+        "",
+        "## Run metadata",
+        "",
+        f"| Parametr | Dəyər |",
+        f"|----------|-------|",
+        f"| Run ID | `{run_id}` |",
+        f"| UTC vaxt | {run_id.replace('T', ' ').replace('Z', ' UTC')} |",
+        f"| Paket | `caspian_fish_quality` v{package_version} |",
+        f"| Seed (`CFQ_SEED`) | {seed} |",
+        f"| `n_per_group` | {n_per_group} |",
+        f"| Ümumi N (AG+RG) | {n_total} |",
+        f"| Müddət | {elapsed_s:.1f} s |",
+        f"| ML modellər (regressiya) | {', '.join(models_available) or '—'} |",
+        "",
+        "## Pipeline addımları",
+        "",
+        "- [x] 6 ədəbiyyat cədvəli yükləndi (`data_1` … `data_6`)",
+        "- [x] Qauss kopulası ilə sintetik generasiya",
+        "- [x] Static + storage birləşməsi",
+        "- [x] PHD su keyfiyyəti → ət tərkibi datası",
+        f"- [x] ML cədvəli: {full_shape[0]} sətir × {full_shape[1]} sütun",
+        "- [x] 5 regressiya + 3 klassifikasiya (5-qat CV)",
+        "- [x] Nərə zero-shot transfer (3 növ)",
+        "",
+        "## Sintetik generasiya",
+        "",
+        "| Mənbə cədvəl | Sətir | Qruplar |",
+        "|--------------|------:|---------|",
+        *syn_lines,
+        "",
+        f"PHD dataset: **{phd_df.shape[0]}** sətir, sütunlar: `{', '.join(phd_df.columns[:6])}` …",
+        "",
+        "## Cədvəl 3.5.6 — Regressiya (CV R², orta ± SD)",
+        "",
+        "| Hədəf | Model | R² (CV) | ±SD |",
+        "|-------|-------|--------:|----:|",
+    ]
+
+    for target in TABLE_36_EXPERIMENTS:
+        sub = table_36[table_36["target"] == target]
+        for model in TABLE_36_MODELS:
+            m = sub[sub["model"] == model]
+            if m.empty:
+                lines.append(f"| {target} | {model} | — | — |")
+            else:
+                r = m.iloc[0]
+                lines.append(
+                    f"| {target} | {model} | {float(r['cv_r2_mean']):.4f} | "
+                    f"{float(r['cv_r2_std']):.4f} |"
+                )
+
+    lines.extend(["", "## Cədvəl 3.5.7 — Transfer (Ridge, zero-shot)", ""])
+    if table_37.empty:
+        lines.append("_Nəticə yoxdur._")
+    else:
+        cols = list(table_37.columns)
+        lines.append("| " + " | ".join(str(c) for c in cols) + " |")
+        lines.append("| " + " | ".join("---" for _ in cols) + " |")
+        for _, row in table_37.iterrows():
+            lines.append("| " + " | ".join(str(row[c]) for c in cols) + " |")
+
+    if not mape_summary.empty:
+        lines.extend(["", "### Transfer xülasəsi (Ridge)", ""])
+        for _, r in mape_summary.iterrows():
+            lines.append(
+                f"- **{r['target']}**: orta |xəta| = {r['mean_abs_error_pct']}%; "
+                f"MAPE ≈ {r['mape_mean']}%"
+            )
+
+    lines.extend(["", "## Klassifikasiya (AG vs RG, sintetik)", ""])
+    for exp in ("C1_Water_Group", "C2_FA_Group", "C3_All_Group"):
+        sub = cls[cls["experiment"] == exp]
+        if sub.empty:
+            continue
+        best = sub.loc[sub["CV_Acc_mean"].idxmax()]
+        lines.append(
+            f"- {EXPERIMENT_ALIASES.get(exp, exp)}: ən yaxşı **{best['model']}** "
+            f"→ CV accuracy = {float(best['CV_Acc_mean']):.4f}"
+        )
+
+    if not marginal.empty:
+        n_ok = int((marginal["relative_error_pct"] <= 5.0).sum())
+        n_all = len(marginal)
+        worst = marginal.iloc[0]
+        lines.extend(
+            [
+                "",
+                "## Sintetik ↔ ədəbiyyat marginal uyğunluğu",
+                "",
+                f"- İzlənən: **{n_all}** parametr",
+                f"- ≤5% nisbi xəta: **{n_ok}/{n_all}**",
+                f"- Ən böyük xəta: **{float(worst['relative_error_pct']):.2f}%** "
+                f"({worst['feature']}, cədvəl {worst['table']}, {worst['group']})",
+            ]
+        )
+
+    lines.extend(
+        [
+            "",
+            "## Əsas nəticə (qısa)",
+            "",
+        ]
+    )
+    if not table_36.empty:
+        best_lip = table_36[table_36["target"] == "Lipid (%)"].sort_values(
+            "cv_r2_mean", ascending=False
+        )
+        if not best_lip.empty:
+            b = best_lip.iloc[0]
+            lines.append(
+                f"- Lipid proqnozu: ən yüksək CV R² = **{float(b['cv_r2_mean']):.3f}** "
+                f"({b['model']})"
+            )
+    if not mape_summary.empty:
+        prot = mape_summary[mape_summary["target"] == "Protein (%)"]
+        if not prot.empty:
+            lines.append(
+                f"- Transfer zülal: orta mütləq xəta **{prot.iloc[0]['mean_abs_error_pct']}%**"
+            )
+
+    lines.extend(
+        [
+            "",
+            "## Yaradılan fayllar",
+            "",
+            "```",
+            f"{OUT.relative_to(ROOT)}/",
+            "  RUN_REPORT.md          ← bu hesabat",
+            "  RUN_REPORT.txt         ← eyni məzmun (mətn)",
+            "  tables_az.md           ← dissertasiya cədvəlləri (AZ)",
+            "  regression_cv_r2.csv",
+            "  transfer_table_3_5_7.csv",
+            "  transfer_zero_shot.csv",
+            "  marginal_relative_error.csv",
+            "  ml_results_all.csv",
+            "  …",
+            "```",
+            "",
+            "---",
+            "",
+            "*Dissertasiya üçün cədvəl formatı:* `tables_az.md`",
+            "",
+        ]
+    )
+
+    text = "\n".join(lines)
+    (OUT / "RUN_REPORT.md").write_text(text, encoding="utf-8")
+    (OUT / "RUN_REPORT.txt").write_text(text, encoding="utf-8")
+    return text
+
+
 def main() -> int:
     t0 = time.time()
+    run_id = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
     settings = get_settings()
     seed = settings.seed
     n_per_group = settings.n_per_group
 
     OUT.mkdir(parents=True, exist_ok=True)
 
-    print(f"Reproducing §3.5.3 (seed={seed}, n_per_group={n_per_group})")
+    print("=" * 70)
+    print("caspian_fish_quality — §3.5.3 reproduction")
+    print(f"  run_id={run_id}  seed={seed}  n_per_group={n_per_group}")
+    print("=" * 70)
 
     df_dict = load_default_df_dict()
     synthetic_dict = generate_all_synthetic(df_dict, n_per_group=n_per_group, seed=seed)
@@ -393,10 +580,62 @@ def main() -> int:
         n_per_group=n_per_group,
     )
 
+    models_available = sorted(reg["model"].unique().tolist())
     elapsed = time.time() - t0
-    print(f"\nDone in {elapsed:.1f}s. Outputs:")
-    for p in sorted(OUT.glob("*")):
-        print(f"  {p}")
+
+    report = write_run_report(
+        run_id=run_id,
+        elapsed_s=elapsed,
+        seed=seed,
+        n_per_group=n_per_group,
+        package_version=cfq.__version__,
+        synthetic_dict=synthetic_dict,
+        phd_df=phd_df,
+        full_shape=full.shape,
+        table_36=table_36,
+        table_37=table_37,
+        mape_summary=mape_summary,
+        marginal=marginal,
+        cls=cls,
+        reg=reg,
+        models_available=models_available,
+    )
+
+    print("\n" + "=" * 70)
+    print("RUN REPORT (summary)")
+    print("=" * 70)
+    if not table_36.empty:
+        print("\nRegressiya (CV R²):")
+        for target in TABLE_36_EXPERIMENTS:
+            sub = table_36[table_36["target"] == target].sort_values(
+                "cv_r2_mean", ascending=False
+            )
+            if sub.empty:
+                continue
+            best = sub.iloc[0]
+            print(
+                f"  {target}: best {best['model']} "
+                f"R²={float(best['cv_r2_mean']):.4f} ± {float(best['cv_r2_std']):.4f}"
+            )
+    if not table_37.empty:
+        print("\nTransfer (Ridge):")
+        for _, r in table_37.iterrows():
+            print(
+                f"  {r['Növ']} | {r['Hədəf']}: "
+                f"proqnoz={r['Proqnoz']} faktiki={r['Faktiki']} xəta={r['Xəta %']}%"
+            )
+    if not mape_summary.empty:
+        print("\nTransfer orta |xəta|:")
+        for _, r in mape_summary.iterrows():
+            print(f"  {r['target']}: {r['mean_abs_error_pct']}%")
+    if not marginal.empty:
+        n_ok = int((marginal["relative_error_pct"] <= 5.0).sum())
+        print(f"\nMarginal uyğunluq: {n_ok}/{len(marginal)} parametr ≤5% xəta")
+    print("\nTam hesabat faylları:")
+    print(f"  {OUT / 'RUN_REPORT.md'}")
+    print(f"  {OUT / 'RUN_REPORT.txt'}")
+    print(f"  {OUT / 'tables_az.md'}")
+    print(f"\nDone in {elapsed:.1f}s.")
     return 0
 
 
