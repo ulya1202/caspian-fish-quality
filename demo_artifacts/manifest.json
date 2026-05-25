@@ -1,0 +1,26 @@
+{
+  "package_version": "0.1.3",
+  "seed": 42,
+  "n_per_group": 1000,
+  "n_rows_phd": 2000,
+  "n_rows_full": 2000,
+  "note": "Pre-trained on synthetic S. glanis data; Streamlit uses inference only.",
+  "feat_cols": [
+    "Water_Temp_C",
+    "Water_pH",
+    "Water_O2_mgL",
+    "Chlorides_mgL",
+    "Nitrites_mgL",
+    "Nitrates_mgL",
+    "Ammonium_mgL",
+    "Phosphates_mgL",
+    "Group_enc",
+    "Feed_Type"
+  ],
+  "inference_targets": [
+    "Lipids_perc",
+    "Protein_perc",
+    "Bodymass_g"
+  ],
+  "exported_at": "2026-05-25T23:20:37.342371+00:00"
+}

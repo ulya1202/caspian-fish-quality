@@ -146,11 +146,67 @@ def default_sturgeon_references() -> list[SturgeonCase]:
 SturgeonReference = SturgeonCase  # type: ignore[misc, assignment]
 
 
-_TARGET_LABELS: dict[str, tuple[str, str]] = {
+TARGET_LABELS: dict[str, tuple[str, str]] = {
     "Lipids (%)": ("Lipids_perc", "lipids_perc"),
     "Protein (%)": ("Protein_perc", "protein_perc"),
     "Body mass (g)": ("Bodymass_g", "bodymass_g"),
 }
+
+# Backward-compatible alias
+_TARGET_LABELS = TARGET_LABELS
+
+
+def water_feature_columns(full: pd.DataFrame) -> list[str]:
+    """Column order for donor water-quality → flesh regressors."""
+    features = [
+        "Water_Temp_C",
+        "Water_pH",
+        "Water_O2_mgL",
+        "Chlorides_mgL",
+        "Nitrites_mgL",
+        "Nitrates_mgL",
+        "Ammonium_mgL",
+        "Phosphates_mgL",
+        "Group_enc",
+        "Feed_Type",
+    ]
+    return [f for f in features if f in full.columns]
+
+
+def fit_water_to_flesh_models(
+    full: pd.DataFrame,
+    *,
+    models: tuple[str, ...] | None = None,
+    random_state: int = 42,
+) -> tuple[dict[tuple[str, str], Pipeline], list[str]]:
+    """Train regressors on the full *S. glanis* synthetic dataset.
+
+    Returns
+    -------
+    trained
+        Keys ``(target_label, model_name)`` → fitted :class:`~sklearn.pipeline.Pipeline`.
+    features
+        Feature column order used for ``fit`` and ``predict``.
+    """
+    features = water_feature_columns(full)
+    model_defs = _transfer_model_defs(random_state)
+    if models is not None:
+        wanted = set(models)
+        model_defs = [(n, fn) for n, fn in model_defs if n in wanted]
+        if not model_defs:
+            raise ValueError("None of the requested model names exist")
+
+    x_train = full[features].to_numpy()
+    trained: dict[tuple[str, str], Pipeline] = {}
+    for target_label, (col, _attr) in TARGET_LABELS.items():
+        if col not in full.columns:
+            continue
+        y = full[col].to_numpy()
+        for mname, mfn in model_defs:
+            pipe = cast(Pipeline, mfn())
+            pipe.fit(x_train, y)
+            trained[(target_label, mname)] = pipe
+    return trained, features
 
 
 def _transfer_model_defs(
@@ -236,46 +292,17 @@ def run_transfer_test(
     """
     sturgeons = cases if cases is not None else (references or default_sturgeon_cases())
     full = prepare_full_dataset(phd_df, static_df, storage_df)
-
-    features = [
-        "Water_Temp_C",
-        "Water_pH",
-        "Water_O2_mgL",
-        "Chlorides_mgL",
-        "Nitrites_mgL",
-        "Nitrates_mgL",
-        "Ammonium_mgL",
-        "Phosphates_mgL",
-        "Group_enc",
-        "Feed_Type",
-    ]
-    features = [f for f in features if f in full.columns]
-
-    model_defs = _transfer_model_defs(random_state)
-    if models is not None:
-        wanted = set(models)
-        model_defs = [(n, fn) for n, fn in model_defs if n in wanted]
-        if not model_defs:
-            raise ValueError("None of the requested model names exist")
-
-    x_train = full[features].to_numpy()
-    trained: dict[tuple[str, str], Pipeline] = {}
-
-    for target_label, (col, _attr) in _TARGET_LABELS.items():
-        if col not in full.columns:
-            continue
-        y = full[col].to_numpy()
-        for mname, mfn in model_defs:
-            pipe = cast(Pipeline, mfn())
-            pipe.fit(x_train, y)
-            trained[(target_label, mname)] = pipe
+    trained, features = fit_water_to_flesh_models(
+        full, models=models, random_state=random_state
+    )
+    model_names = sorted({m for _, m in trained})
 
     rows: list[dict[str, Any]] = []
     for case in sturgeons:
         x_test = case.feature_row(features)
-        for target_label, (_, attr) in _TARGET_LABELS.items():
+        for target_label, (_, attr) in TARGET_LABELS.items():
             actual = float(getattr(case, attr))
-            for mname, _ in model_defs:
+            for mname in model_names:
                 key = (target_label, mname)
                 if key not in trained:
                     continue
@@ -291,7 +318,7 @@ def run_transfer_test(
                         "water_quality_ref": case.water_ref,
                         "flesh_composition_ref": case.flesh_ref,
                         "target": target_label,
-                        "target_col": _TARGET_LABELS[target_label][0],
+                        "target_col": TARGET_LABELS[target_label][0],
                         "model": mname,
                         "actual": round(actual, 2),
                         "predicted": round(pred, 2),
@@ -308,7 +335,10 @@ def run_transfer_test(
 __all__ = [
     "SturgeonCase",
     "SturgeonReference",
+    "TARGET_LABELS",
     "default_sturgeon_cases",
     "default_sturgeon_references",
+    "fit_water_to_flesh_models",
     "run_transfer_test",
+    "water_feature_columns",
 ]

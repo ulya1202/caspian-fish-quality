@@ -20,9 +20,21 @@ Push to `main` updates the site automatically.
 
 After deploy, update the Streamlit URL in [`docs/index.html`](docs/index.html) if it differs.
 
+## Demo model weights (inference-only)
+
+Train once and commit artifacts (Streamlit does **not** retrain):
+
+```bash
+pip install -e ".[dev,test]"
+python scripts/export_demo_artifacts.py
+```
+
+Writes `demo_artifacts/models/*.joblib` plus CSV tables. Re-run after pipeline or seed changes.
+
 ## Lokal test
 
 ```bash
 pip install -e ".[demo,test]"
+python scripts/export_demo_artifacts.py   # if demo_artifacts/ missing
 streamlit run app/streamlit_app.py
 ```

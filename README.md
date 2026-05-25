@@ -11,10 +11,11 @@ Synthetic-data and machine-learning pipeline for *Silurus glanis* (European wels
 | [Layihə səhifəsi](https://ulya1202.github.io/caspian-fish-quality/) | Qısa AZ təqdimat + linklər |
 | [Canlı demo (Streamlit)](https://caspian-fish-quality.streamlit.app) | İnteraktiv: proqnoz, transfer, cədvəllər |
 
-Lokal demo:
+Lokal demo (yalnız inferensiya — modellər `demo_artifacts/`):
 
 ```bash
 pip install -e ".[demo,test]"
+python scripts/export_demo_artifacts.py   # bir dəfə: təlim + çəki saxlanması
 streamlit run app/streamlit_app.py
 ```
 

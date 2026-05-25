@@ -1,0 +1,10 @@
+species,common_name,rearing_system,water_quality_ref,flesh_composition_ref,target,target_col,model,actual,predicted,absolute_error,error_pct,MAPE,citation
+Acipenser stellatus,Sevruga sturgeon,"RAS, Galați, Romania",Florescu Gune et al. (2021),Dorojan et al. (2020),Lipids (%),Lipids_perc,Ridge,1.32,3.23,1.91,144.9,1.4488,Dorojan et al. (2020)
+Acipenser stellatus,Sevruga sturgeon,"RAS, Galați, Romania",Florescu Gune et al. (2021),Dorojan et al. (2020),Protein (%),Protein_perc,Ridge,17.86,14.06,3.8,-21.3,0.2128,Dorojan et al. (2020)
+Acipenser stellatus,Sevruga sturgeon,"RAS, Galați, Romania",Florescu Gune et al. (2021),Dorojan et al. (2020),Body mass (g),Bodymass_g,Ridge,331.3,1940.6,1609.3,485.8,4.8575,Dorojan et al. (2020)
+Acipenser baerii,Siberian sturgeon,"Farm, Agroittica Lombarda, Italy",Estimated from facility reports,Lopez et al. (2020),Lipids (%),Lipids_perc,Ridge,5.6,2.84,2.76,-49.4,0.4937,Lopez et al. (2020)
+Acipenser baerii,Siberian sturgeon,"Farm, Agroittica Lombarda, Italy",Estimated from facility reports,Lopez et al. (2020),Protein (%),Protein_perc,Ridge,17.6,15.83,1.77,-10.0,0.1004,Lopez et al. (2020)
+Acipenser baerii,Siberian sturgeon,"Farm, Agroittica Lombarda, Italy",Estimated from facility reports,Lopez et al. (2020),Body mass (g),Bodymass_g,Ridge,6500.0,1955.52,4544.48,-69.9,0.6992,Lopez et al. (2020)
+Huso huso,Beluga sturgeon,"Concrete tanks, Sari, Iran",Estimated from RAS standards,Ghomi et al. (2013),Lipids (%),Lipids_perc,Ridge,3.92,3.19,0.73,-18.6,0.1857,Ghomi et al. (2013)
+Huso huso,Beluga sturgeon,"Concrete tanks, Sari, Iran",Estimated from RAS standards,Ghomi et al. (2013),Protein (%),Protein_perc,Ridge,14.73,14.41,0.32,-2.2,0.0218,Ghomi et al. (2013)
+Huso huso,Beluga sturgeon,"Concrete tanks, Sari, Iran",Estimated from RAS standards,Ghomi et al. (2013),Body mass (g),Bodymass_g,Ridge,15000.0,1931.68,13068.32,-87.1,0.8712,Ghomi et al. (2013)
