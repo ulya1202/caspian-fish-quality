@@ -1,0 +1,59 @@
+experiment,model,R2_test,RMSE,MAE,CV_R2_mean,CV_R2_std,Accuracy,F1,Precision,Recall,CV_Acc_mean,CV_Acc_std
+R1_Water→Protein,Linear Regression,0.4394,1.4659,1.1601,0.4359,0.0047,,,,,,
+R1_Water→Protein,Ridge,0.4394,1.466,1.1601,0.4359,0.0047,,,,,,
+R1_Water→Protein,Lasso,0.4353,1.4714,1.1644,0.4353,0.006,,,,,,
+R1_Water→Protein,Random Forest,0.3986,1.5183,1.2095,0.4079,0.015,,,,,,
+R1_Water→Protein,XGBoost,0.4028,1.513,1.2031,0.4156,0.0126,,,,,,
+R1_Water→Protein,LightGBM,0.4104,1.5034,1.1919,0.4105,0.0104,,,,,,
+R1_Water→Protein,SVR,0.3311,1.6013,1.2926,0.3606,0.0263,,,,,,
+R1_Water→Protein,KNN,0.2989,1.6394,1.3084,0.3343,0.0289,,,,,,
+R2_Water→Lipids,Linear Regression,0.9005,0.2977,0.2407,0.9003,0.0039,,,,,,
+R2_Water→Lipids,Ridge,0.9005,0.2977,0.2407,0.9003,0.0039,,,,,,
+R2_Water→Lipids,Lasso,0.8995,0.2991,0.2415,0.8999,0.0031,,,,,,
+R2_Water→Lipids,Random Forest,0.891,0.3114,0.2522,0.8924,0.0066,,,,,,
+R2_Water→Lipids,XGBoost,0.8987,0.3003,0.246,0.8955,0.0068,,,,,,
+R2_Water→Lipids,LightGBM,0.8976,0.3019,0.2468,0.8961,0.0062,,,,,,
+R2_Water→Lipids,SVR,0.8835,0.322,0.2587,0.8774,0.0084,,,,,,
+R2_Water→Lipids,KNN,0.8754,0.333,0.2696,0.8776,0.0054,,,,,,
+R3_Water→Bodymass,Linear Regression,0.6163,124.1934,100.617,0.6359,0.0203,,,,,,
+R3_Water→Bodymass,Ridge,0.6163,124.1871,100.6146,0.6359,0.0203,,,,,,
+R3_Water→Bodymass,Lasso,0.6163,124.1878,100.6132,0.6359,0.0202,,,,,,
+R3_Water→Bodymass,Random Forest,0.611,125.0409,100.4551,0.6237,0.0172,,,,,,
+R3_Water→Bodymass,XGBoost,0.5957,127.4811,102.5054,0.6222,0.0213,,,,,,
+R3_Water→Bodymass,LightGBM,0.6022,126.4578,102.5889,0.6195,0.0159,,,,,,
+R3_Water→Bodymass,SVR,0.5892,128.509,105.3919,0.6151,0.0203,,,,,,
+R3_Water→Bodymass,KNN,0.5319,137.169,109.4893,0.5694,0.0224,,,,,,
+R4_All→Protein,Linear Regression,0.412,1.5013,1.1959,0.4192,0.0102,,,,,,
+R4_All→Protein,Ridge,0.4157,1.4966,1.1909,0.4231,0.0106,,,,,,
+R4_All→Protein,Lasso,0.4306,1.4773,1.1735,0.4321,0.0074,,,,,,
+R4_All→Protein,Random Forest,0.4006,1.5159,1.216,0.4072,0.0116,,,,,,
+R4_All→Protein,XGBoost,0.3874,1.5324,1.2154,0.3938,0.0102,,,,,,
+R4_All→Protein,LightGBM,0.3917,1.527,1.2171,0.3927,0.0072,,,,,,
+R4_All→Protein,SVR,0.2762,1.6657,1.3292,0.3023,0.0176,,,,,,
+R4_All→Protein,KNN,0.2054,1.7453,1.4201,0.2486,0.0231,,,,,,
+R5_All→Lipids,Linear Regression,0.8956,0.3049,0.244,0.8963,0.0045,,,,,,
+R5_All→Lipids,Ridge,0.8957,0.3047,0.2443,0.8967,0.0042,,,,,,
+R5_All→Lipids,Lasso,0.8986,0.3005,0.2428,0.8992,0.0029,,,,,,
+R5_All→Lipids,Random Forest,0.8863,0.3182,0.2581,0.8887,0.0071,,,,,,
+R5_All→Lipids,XGBoost,0.8923,0.3096,0.2517,0.8903,0.0062,,,,,,
+R5_All→Lipids,LightGBM,0.8927,0.3091,0.2517,0.8923,0.0062,,,,,,
+R5_All→Lipids,SVR,0.8647,0.3471,0.2763,0.8669,0.0042,,,,,,
+R5_All→Lipids,KNN,0.8273,0.3921,0.3097,0.8377,0.0067,,,,,,
+C1_Water→Group,Logistic Regression,,,,,,1.0,1.0,1.0,1.0,1.0,0.0
+C1_Water→Group,Random Forest,,,,,,1.0,1.0,1.0,1.0,1.0,0.0
+C1_Water→Group,XGBoost,,,,,,1.0,1.0,1.0,1.0,1.0,0.0
+C1_Water→Group,LightGBM,,,,,,1.0,1.0,1.0,1.0,1.0,0.0
+C1_Water→Group,SVM,,,,,,1.0,1.0,1.0,1.0,1.0,0.0
+C1_Water→Group,KNN,,,,,,1.0,1.0,1.0,1.0,1.0,0.0
+C2_FA→Group,Logistic Regression,,,,,,1.0,1.0,1.0,1.0,1.0,0.0
+C2_FA→Group,Random Forest,,,,,,1.0,1.0,1.0,1.0,1.0,0.0
+C2_FA→Group,XGBoost,,,,,,0.9975,0.9975,0.9975,0.9975,0.9995,0.001
+C2_FA→Group,LightGBM,,,,,,1.0,1.0,1.0,1.0,1.0,0.0
+C2_FA→Group,SVM,,,,,,1.0,1.0,1.0,1.0,1.0,0.0
+C2_FA→Group,KNN,,,,,,1.0,1.0,1.0,1.0,1.0,0.0
+C3_All→Group,Logistic Regression,,,,,,1.0,1.0,1.0,1.0,1.0,0.0
+C3_All→Group,Random Forest,,,,,,1.0,1.0,1.0,1.0,1.0,0.0
+C3_All→Group,XGBoost,,,,,,1.0,1.0,1.0,1.0,1.0,0.0
+C3_All→Group,LightGBM,,,,,,1.0,1.0,1.0,1.0,1.0,0.0
+C3_All→Group,SVM,,,,,,1.0,1.0,1.0,1.0,1.0,0.0
+C3_All→Group,KNN,,,,,,1.0,1.0,1.0,1.0,1.0,0.0

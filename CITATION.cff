@@ -1,0 +1,42 @@
+cff-version: 1.2.0
+title: caspian_fish_quality
+message: >-
+  If you use this software, please cite it as below.
+type: software
+authors:
+  - family-names: PhD Candidate
+    given-names: ""
+    email: candidate@example.az
+    affiliation: Azerbaijan
+abstract: >-
+  Synthetic-data and machine-learning pipeline for sturgeon and herring
+  quality research in Azerbaijani Caspian waters. Implements Gaussian-
+  copula NORTA sampling of literature-derived priors for Silurus glanis,
+  leakage-free scikit-learn pipelines, and weak / out-of-distribution
+  cross-species transfer evaluation toward Acipenseriformes.
+keywords:
+  - aquaculture
+  - synthetic-data
+  - Gaussian-copula
+  - Caspian
+  - sturgeon
+  - kilka
+  - Silurus-glanis
+license: MIT
+version: 0.1.0
+date-released: "2026-04-27"
+url: "https://github.com/ulya1202/caspian-fish-quality"
+repository-code: "https://github.com/ulya1202/caspian-fish-quality"
+# TODO: replace with the Zenodo-archived DOI once the first GitHub release
+# is mirrored to Zenodo (https://docs.github.com/en/repositories/archiving-a-github-repository/referencing-and-citing-content).
+doi: "10.5281/zenodo.PLACEHOLDER"
+preferred-citation:
+  type: software
+  title: caspian_fish_quality
+  authors:
+    - family-names: PhD Candidate
+      given-names: ""
+      email: candidate@example.az
+  year: 2026
+  version: 0.1.0
+  url: "https://github.com/ulya1202/caspian-fish-quality"

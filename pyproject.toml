@@ -1,0 +1,177 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "caspian_fish_quality"
+version = "0.1.0"
+description = "Synthetic-data + ML pipeline for sturgeon and herring quality in Azerbaijani Caspian waters."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "PhD Candidate", email = "candidate@example.az" }]
+keywords = [
+  "aquaculture",
+  "synthetic-data",
+  "Gaussian-copula",
+  "Caspian",
+  "sturgeon",
+  "kilka",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Scientific/Engineering :: Bio-Informatics",
+  "Typing :: Typed",
+]
+dependencies = [
+  "numpy>=1.26",
+  "pandas>=2.2",
+  "scipy>=1.13",
+  "scikit-learn>=1.5",
+  "xgboost>=2.0",
+  "lightgbm>=4.3",
+  "pydantic>=2.7",
+  "pydantic-settings>=2.3",
+  "statsmodels>=0.14",
+  "pyarrow>=16",
+]
+
+[project.optional-dependencies]
+docs = [
+  "sphinx>=7",
+  "furo>=2024.5",
+  "myst-parser>=3.0",
+  "linkify-it-py>=2.0",
+  "sphinx-autodoc-typehints>=2.2",
+  "sphinx-copybutton>=0.5",
+]
+test = [
+  "pytest>=8",
+  "pytest-cov>=5",
+  "hypothesis>=6",
+]
+dev = [
+  "ruff>=0.6",
+  "mypy>=1.11",
+  "pre-commit>=3.8",
+  "build>=1.2",
+  "twine>=5.1",
+  "pandas-stubs",
+  "types-setuptools",
+]
+
+[project.urls]
+Homepage = "https://github.com/ulya1202/caspian-fish-quality"
+Repository = "https://github.com/ulya1202/caspian-fish-quality"
+Documentation = "https://caspian-fish-quality.readthedocs.io/"
+Issues = "https://github.com/ulya1202/caspian-fish-quality/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/caspian_fish_quality"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/caspian_fish_quality/data/literature" = "caspian_fish_quality/data/literature"
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "src/caspian_fish_quality",
+  "tests",
+  "docs",
+  "README.md",
+  "LICENSE",
+  "CHANGELOG.md",
+  "CITATION.cff",
+  "REFERENCES.bib",
+  "pyproject.toml",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests"]
+extend-exclude = ["docs/_build", "build", "dist"]
+
+[tool.ruff.lint]
+select = [
+  "E",
+  "F",
+  "W",
+  "I",
+  "N",
+  "UP",
+  "B",
+  "C4",
+  "SIM",
+  "PTH",
+  "RUF",
+  "D",
+  "ANN",
+  "NPY",
+  "PD",
+]
+ignore = [
+  "D203",
+  "D213",
+  "ANN401",
+  "RUF001",
+  "RUF002",
+  "RUF003",
+  "N803",
+  "N806",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D100", "D101", "D102", "D103", "D104", "ANN", "PLR2004", "N802"]
+"docs/conf.py" = ["D100", "ANN"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_unused_configs = true
+warn_unreachable = true
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["xgboost.*", "lightgbm.*", "statsmodels.*", "scipy.*", "sklearn.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "-ra --strict-markers --strict-config --cov=caspian_fish_quality --cov-branch --cov-report=term-missing"
+testpaths = ["tests"]
+xfail_strict = true
+filterwarnings = [
+  "error",
+  "ignore::DeprecationWarning:lightgbm.*",
+  "ignore::DeprecationWarning:xgboost.*",
+  "ignore::PendingDeprecationWarning",
+  "ignore::FutureWarning:pandas.*",
+  "ignore::UserWarning:joblib.*",
+  "ignore:.*physical cores.*:UserWarning",
+  "ignore::statsmodels.tools.sm_exceptions.IterationLimitWarning",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["caspian_fish_quality"]
+omit = ["src/caspian_fish_quality/__main__.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no cover",
+  "raise NotImplementedError",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
