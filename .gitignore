@@ -57,6 +57,11 @@ feature_importance*.csv
 synthetic_*.csv
 transfer_results.csv
 
+# Frozen dissertation results (committed under results/section_3_5_3/)
+results/*
+!results/section_3_5_3/
+!results/section_3_5_3/**
+
 # pyenv / venv
 .python-version
 .venv

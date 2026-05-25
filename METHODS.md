@@ -62,9 +62,10 @@ For the full Azerbaijani methods chapter, see
 ## 5. Cross-species transfer
 
 * `transfer.sturgeon_eval`: train donor models on synthetic *Silurus
-  glanis* data, predict for three Caspian sturgeon references
-  (Mamedov, 2006; Bronzi & Rosenthal, 2014; Boscari et al., 2017).
-  Reports MAPE and direction-of-effect agreement.
+  glanis* data, zero-shot predict for *A. stellatus*, *A. baerii*, and
+  *H. huso* using published water-quality conditions (Dorojan et al.,
+  2020; Lopez et al., 2020; Ghomi et al., 2013). Reports MAPE and
+  percent error vs literature proximate composition.
 * `transfer.domain_check`: H-divergence proxy via balanced 5-fold CV
   on a logistic-regression domain classifier (Ben-David et al., 2010).
 

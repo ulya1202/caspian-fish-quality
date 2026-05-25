@@ -54,6 +54,22 @@ pip install -e ".[dev,test]"
 pytest
 ```
 
+## Reproduce dissertation §3.5.3
+
+One command regenerates synthetic data (N=2000), ML tables, and sturgeon
+transfer results used in section 3.5.3:
+
+```bash
+pip install -e ".[dev,test]"
+python scripts/reproduce_section_3_5_3.py
+```
+
+Outputs are written to [`results/section_3_5_3/`](results/section_3_5_3/)
+including paste-ready Azerbaijani snippets in `tables_az.md`.
+Override defaults with `CFQ_SEED=42` and `CFQ_N_PER_GROUP=1000`.
+
+Interactive run: [`notebooks/syntetic_fish_cleaned.ipynb`](notebooks/syntetic_fish_cleaned.ipynb).
+
 ## Quick start
 
 ```python

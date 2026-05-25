@@ -34,14 +34,18 @@ from caspian_fish_quality.synth.generators import (
 from caspian_fish_quality.synth.moments import sem_to_sd
 from caspian_fish_quality.synth.truncated import sample_truncated
 from caspian_fish_quality.transfer.sturgeon_eval import (
+    SturgeonCase,
     SturgeonReference,
+    default_sturgeon_cases,
     run_transfer_test,
 )
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 __all__ = [
+    "SturgeonCase",
     "SturgeonReference",
+    "default_sturgeon_cases",
     "__version__",
     "build_corr",
     "build_pipeline",

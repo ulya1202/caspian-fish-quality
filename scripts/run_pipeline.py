@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 
 import caspian_fish_quality as cfq
+from caspian_fish_quality.config import get_settings
 from caspian_fish_quality.ml.datasets import (
     generate_phd_dataset,
     prepare_full_dataset,
@@ -30,7 +31,9 @@ def banner(title: str) -> None:
 
 def main() -> None:
     t0 = time.time()
+    settings = get_settings()
     print(f"caspian_fish_quality version: {cfq.__version__}")
+    print(f"settings: seed={settings.seed}, n_per_group={settings.n_per_group}")
 
     banner("STEP 1 - Load 6 bundled literature CSVs")
     df_dict = load_default_df_dict()
@@ -38,7 +41,9 @@ def main() -> None:
         print(f"  table {k}: {v.shape[0]:>3} rows x {v.shape[1]:>2} cols")
 
     banner("STEP 2 - Generate synthetic data via Gaussian copula")
-    syn = cfq.generate_all_synthetic(df_dict, n_per_group=400, seed=42)
+    syn = cfq.generate_all_synthetic(
+        df_dict, n_per_group=settings.n_per_group, seed=settings.seed
+    )
     for k, v in syn.items():
         groups = ", ".join(sorted(v["group"].unique()))
         print(f"  table {k}: {len(v):>4} rows | groups: {groups} | cols: {v.shape[1]}")
@@ -51,7 +56,9 @@ def main() -> None:
     print(f"  static cols (first 12): {list(static_df.columns[:12])}")
 
     banner("STEP 4 - Generate PHD water-quality dataset")
-    phd_df = generate_phd_dataset(n_per_group=400, seed=42)
+    phd_df = generate_phd_dataset(
+        n_per_group=settings.n_per_group, seed=settings.seed
+    )
     print(f"  phd_df: {phd_df.shape}")
     print(f"  groups: {phd_df['Group'].value_counts().to_dict()}")
     print(
@@ -65,7 +72,7 @@ def main() -> None:
     print(f"  Group_enc unique: {sorted(full['Group_enc'].unique())}")
 
     banner("STEP 6 - Run experiment grid (regression + classification)")
-    res, imp = run_all(full, random_state=42)
+    res, imp = run_all(full, random_state=settings.seed)
     print(f"  results table:    {res.shape}")
     print(f"  importance table: {imp.shape}")
     print("\n  Top regression rows:")

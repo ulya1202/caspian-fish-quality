@@ -90,11 +90,11 @@ addımlar `random_state=42` ilə deterministikdir.
 
 ## 9.5 Cross-species transfer
 
-`run_transfer_test` *S. glanis* üzərində öyrədilmiş modeli üç Caspian
-sturgeon növü üçün referans dəyərlərə qarşı sınayır. **Bu metod weak /
-out-of-distribution transferdir** (Pan & Yang, 2010); yalnız zəif
-uğur kriteriyaları (predicted ↔ observed istiqamət uyğunluğu) tətbiq
-olunur.
+`run_transfer_test` *S. glanis* üzərində öyrədilmiş modeli üç nərə növü
+üçün (**A. stellatus**, **A. baerii**, **H. huso**) ədəbiyyat su keyfiyyəti
+şərtlərində zero-shot proqnoz verir (Dorojan et al., 2020; Lopez et al.,
+2020; Ghomi et al., 2013). **Bu metod weak / out-of-distribution transferdir**
+(Pan & Yang, 2010).
 
 ## 9.6 Domen oxşarlığı
 
@@ -106,6 +106,8 @@ olduqda domenlər oxşardır; 1.0-a yaxın olduqda transfer çətindir.
 ## 9.7 Reproduktivlik
 
 * Bütün stochastic funksiyalar `numpy.random.Generator` qəbul edir.
-* `Settings` (Pydantic v2) master `seed=42` saxlayır.
+* `Settings` (Pydantic v2) master `seed=42`, `n_per_group=1000` saxlayır.
+* **Bölmə 3.5.3:** `python scripts/reproduce_section_3_5_3.py` — cədvəl
+  3.5.6–3.5.7 və `results/section_3_5_3/tables_az.md`.
 * `pyproject.toml`-da pinləşmiş asılılıqlar.
 * GitHub Actions üzərində 3.10–3.13 matrix.

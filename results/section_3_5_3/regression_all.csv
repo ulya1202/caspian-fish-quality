@@ -1,0 +1,41 @@
+experiment,model,R2,RMSE,MAE,CV_R2_mean,CV_R2_std,Accuracy,F1,Precision,Recall,CV_Acc_mean,CV_Acc_std,experiment_az
+R1_Water_Protein,Linear Regression,0.4394,1.4659,1.1601,0.4359,0.0047,,,,,,,R1_Water→Protein
+R1_Water_Protein,Ridge,0.4394,1.466,1.1601,0.4359,0.0047,,,,,,,R1_Water→Protein
+R1_Water_Protein,Lasso,0.4353,1.4714,1.1644,0.4353,0.006,,,,,,,R1_Water→Protein
+R1_Water_Protein,ElasticNet,0.4367,1.4695,1.1629,0.4357,0.0053,,,,,,,R1_Water→Protein
+R1_Water_Protein,Random Forest,0.3922,1.5265,1.2161,0.4055,0.0168,,,,,,,R1_Water→Protein
+R1_Water_Protein,Gradient Boosting,0.402,1.514,1.1974,0.4091,0.0136,,,,,,,R1_Water→Protein
+R1_Water_Protein,SVR,0.3311,1.6013,1.2926,0.3606,0.0263,,,,,,,R1_Water→Protein
+R1_Water_Protein,KNN,0.2989,1.6394,1.3084,0.3343,0.0289,,,,,,,R1_Water→Protein
+R2_Water_Lipids,Linear Regression,0.9005,0.2977,0.2407,0.9003,0.0039,,,,,,,R2_Water→Lipids
+R2_Water_Lipids,Ridge,0.9005,0.2977,0.2407,0.9003,0.0039,,,,,,,R2_Water→Lipids
+R2_Water_Lipids,Lasso,0.8995,0.2991,0.2415,0.8999,0.0031,,,,,,,R2_Water→Lipids
+R2_Water_Lipids,ElasticNet,0.9001,0.2983,0.2413,0.9004,0.0033,,,,,,,R2_Water→Lipids
+R2_Water_Lipids,Random Forest,0.8905,0.3123,0.2523,0.8927,0.0069,,,,,,,R2_Water→Lipids
+R2_Water_Lipids,Gradient Boosting,0.8998,0.2986,0.2423,0.8944,0.0067,,,,,,,R2_Water→Lipids
+R2_Water_Lipids,SVR,0.8835,0.322,0.2587,0.8774,0.0084,,,,,,,R2_Water→Lipids
+R2_Water_Lipids,KNN,0.8754,0.333,0.2696,0.8776,0.0054,,,,,,,R2_Water→Lipids
+R3_Water_Bodymass,Linear Regression,0.6163,124.1934,100.617,0.6359,0.0203,,,,,,,R3_Water→Bodymass
+R3_Water_Bodymass,Ridge,0.6163,124.1871,100.6146,0.6359,0.0203,,,,,,,R3_Water→Bodymass
+R3_Water_Bodymass,Lasso,0.6163,124.1878,100.6132,0.6359,0.0202,,,,,,,R3_Water→Bodymass
+R3_Water_Bodymass,ElasticNet,0.6166,124.1479,100.5971,0.6359,0.0204,,,,,,,R3_Water→Bodymass
+R3_Water_Bodymass,Random Forest,0.6099,125.221,100.4604,0.6214,0.0161,,,,,,,R3_Water→Bodymass
+R3_Water_Bodymass,Gradient Boosting,0.5994,126.9034,102.5606,0.6146,0.0184,,,,,,,R3_Water→Bodymass
+R3_Water_Bodymass,SVR,0.5892,128.509,105.3919,0.6151,0.0203,,,,,,,R3_Water→Bodymass
+R3_Water_Bodymass,KNN,0.5319,137.169,109.4893,0.5694,0.0224,,,,,,,R3_Water→Bodymass
+R4_All_Protein,Linear Regression,0.4118,1.5016,1.1958,0.4191,0.0101,,,,,,,R4_All→Protein
+R4_All_Protein,Ridge,0.4145,1.4982,1.1926,0.4228,0.0109,,,,,,,R4_All→Protein
+R4_All_Protein,Lasso,0.4294,1.4789,1.1742,0.4322,0.0076,,,,,,,R4_All→Protein
+R4_All_Protein,ElasticNet,0.4243,1.4856,1.1791,0.4301,0.0089,,,,,,,R4_All→Protein
+R4_All_Protein,Random Forest,0.3977,1.5195,1.2192,0.4069,0.015,,,,,,,R4_All→Protein
+R4_All_Protein,Gradient Boosting,0.3806,1.5409,1.219,0.3851,0.0063,,,,,,,R4_All→Protein
+R4_All_Protein,SVR,0.2657,1.6777,1.3358,0.3007,0.0184,,,,,,,R4_All→Protein
+R4_All_Protein,KNN,0.2239,1.7249,1.3803,0.2518,0.0195,,,,,,,R4_All→Protein
+R5_All_Lipids,Linear Regression,0.894,0.3072,0.246,0.8963,0.0046,,,,,,,R5_All→Lipids
+R5_All_Lipids,Ridge,0.8943,0.3068,0.2461,0.8968,0.0043,,,,,,,R5_All→Lipids
+R5_All_Lipids,Lasso,0.8986,0.3005,0.2428,0.8992,0.0028,,,,,,,R5_All→Lipids
+R5_All_Lipids,ElasticNet,0.898,0.3013,0.244,0.8992,0.0028,,,,,,,R5_All→Lipids
+R5_All_Lipids,Random Forest,0.8855,0.3193,0.2593,0.8892,0.0071,,,,,,,R5_All→Lipids
+R5_All_Lipids,Gradient Boosting,0.8911,0.3114,0.2544,0.8892,0.0052,,,,,,,R5_All→Lipids
+R5_All_Lipids,SVR,0.8634,0.3487,0.2735,0.8678,0.0042,,,,,,,R5_All→Lipids
+R5_All_Lipids,KNN,0.8237,0.3961,0.3121,0.8366,0.0073,,,,,,,R5_All→Lipids

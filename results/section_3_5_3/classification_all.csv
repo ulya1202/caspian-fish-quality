@@ -1,0 +1,16 @@
+experiment,model,R2,RMSE,MAE,CV_R2_mean,CV_R2_std,Accuracy,F1,Precision,Recall,CV_Acc_mean,CV_Acc_std,experiment_az
+C1_Water_Group,Logistic Regression,,,,,,1.0,1.0,1.0,1.0,1.0,0.0,C1_Water→Group
+C1_Water_Group,Random Forest,,,,,,1.0,1.0,1.0,1.0,1.0,0.0,C1_Water→Group
+C1_Water_Group,Gradient Boosting,,,,,,1.0,1.0,1.0,1.0,1.0,0.0,C1_Water→Group
+C1_Water_Group,SVM,,,,,,1.0,1.0,1.0,1.0,1.0,0.0,C1_Water→Group
+C1_Water_Group,KNN,,,,,,1.0,1.0,1.0,1.0,1.0,0.0,C1_Water→Group
+C2_FA_Group,Logistic Regression,,,,,,1.0,1.0,1.0,1.0,1.0,0.0,C2_FA→Group
+C2_FA_Group,Random Forest,,,,,,1.0,1.0,1.0,1.0,1.0,0.0,C2_FA→Group
+C2_FA_Group,Gradient Boosting,,,,,,1.0,1.0,1.0,1.0,1.0,0.0,C2_FA→Group
+C2_FA_Group,SVM,,,,,,1.0,1.0,1.0,1.0,1.0,0.0,C2_FA→Group
+C2_FA_Group,KNN,,,,,,1.0,1.0,1.0,1.0,1.0,0.0,C2_FA→Group
+C3_All_Group,Logistic Regression,,,,,,1.0,1.0,1.0,1.0,1.0,0.0,C3_All→Group
+C3_All_Group,Random Forest,,,,,,1.0,1.0,1.0,1.0,1.0,0.0,C3_All→Group
+C3_All_Group,Gradient Boosting,,,,,,1.0,1.0,1.0,1.0,1.0,0.0,C3_All→Group
+C3_All_Group,SVM,,,,,,1.0,1.0,1.0,1.0,1.0,0.0,C3_All→Group
+C3_All_Group,KNN,,,,,,1.0,1.0,1.0,1.0,1.0,0.0,C3_All→Group
