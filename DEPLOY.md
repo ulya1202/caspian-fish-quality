@@ -2,11 +2,13 @@
 
 ## GitHub Pages (layihə səhifəsi)
 
-Push `main` branch triggers [`.github/workflows/pages.yml`](.github/workflows/pages.yml).
+**URL:** https://ulya1202.github.io/caspian-fish-quality/
 
-URL: **https://ulya1202.github.io/caspian-fish-quality/**
+Enabled via repo **Settings → Pages → Deploy from branch `main`, folder `/docs`**.
 
-If Pages is not enabled: repo **Settings → Pages → Build and deployment → GitHub Actions**.
+The workflow [`.github/workflows/pages.yml`](.github/workflows/pages.yml) is optional; if Actions deploy fails, legacy `/docs` hosting still works after the setting above is enabled.
+
+Push to `main` updates the site automatically.
 
 ## Streamlit Community Cloud (interaktiv demo)
 
