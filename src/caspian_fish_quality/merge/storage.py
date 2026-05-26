@@ -50,8 +50,8 @@ def merge_storage(synthetic_dict: dict[int, pd.DataFrame]) -> pd.DataFrame:
         return pd.DataFrame()
 
     wide = pd.concat(parts, axis=1).reset_index()
-    wide = wide.drop(columns=["sample_id"])
-    cols = ["group", *[c for c in wide.columns if c != "group"]]
+    wide = wide.sort_values(["group", "sample_id"]).reset_index(drop=True)
+    cols = ["group", "sample_id", *[c for c in wide.columns if c not in ("group", "sample_id")]]
     return cast("pd.DataFrame", wide[cols])
 
 

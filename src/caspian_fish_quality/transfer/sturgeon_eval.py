@@ -3,8 +3,9 @@
 Models trained on synthetic *Silurus glanis* water-quality and flesh-composition
 data are applied in a **zero-shot** setting: published sturgeon water conditions
 are fed to donor-trained regressors and predictions are compared to literature
-proximate composition (Dorojan et al., 2020; Lopez et al., 2020; Ghomi et al.,
-2013).
+proximate composition (Dorojan, 2016; Lopez et al., 2020; Ghomi et al., 2013).
+Water quality for *A. stellatus* follows Florescu (Gune) et al. (2021);
+see ``docs/LITERATURE_SOURCES.md``.
 
 This is *out-of-distribution* transfer (Pan & Yang, 2010), not domain adaptation.
 Caspian sturgeons are CITES Appendix II / IUCN CR-EN; live sampling is limited.
@@ -80,7 +81,7 @@ def default_sturgeon_cases() -> list[SturgeonCase]:
             common_name="Sevruga sturgeon",
             source="RAS, Galați, Romania",
             water_ref="Florescu Gune et al. (2021)",
-            flesh_ref="Dorojan et al. (2020)",
+            flesh_ref="Dorojan (2016)",
             water_temp_c=25.0,
             water_ph=7.70,
             water_o2_mgl=6.60,

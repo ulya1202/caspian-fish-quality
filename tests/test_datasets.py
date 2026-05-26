@@ -28,6 +28,16 @@ def test_prepare_full_dataset_encodes_group(
     assert not full.isna().any().any()
 
 
+def test_prepare_full_dataset_aligns_by_group_and_sample_id(
+    phd_df: pd.DataFrame, static_df: pd.DataFrame, storage_df: pd.DataFrame
+) -> None:
+    full = prepare_full_dataset(phd_df, static_df, storage_df)
+    assert len(full) == len(phd_df)
+    assert "sample_id" in full.columns
+    assert full["Protein_perc"].notna().all()
+    assert any(c.startswith("bio_") for c in full.columns)
+
+
 def test_run_experiment_smoke(
     phd_df: pd.DataFrame, static_df: pd.DataFrame, storage_df: pd.DataFrame
 ) -> None:

@@ -36,7 +36,7 @@ python scripts/reproduce_section_3_5_3.py
 
 This runs (~1–2 minutes):
 
-1. Load six literature prior tables from `src/caspian_fish_quality/data/literature/`
+1. Load six literature prior tables from `src/caspian_fish_quality/data/literature/` (all from [Simeanu et al., 2022](https://doi.org/10.3390/agriculture12122144) — see [`docs/LITERATURE_SOURCES.md`](docs/LITERATURE_SOURCES.md))
 2. Generate **N = 2000** synthetic individuals (1000 AG + 1000 RG) via Gaussian copula (NORTA)
 3. Train leakage-free ML models (5-fold CV) and export regression/classification metrics
 4. Zero-shot sturgeon transfer (*A. stellatus*, *A. baerii*, *H. huso*)
@@ -100,6 +100,15 @@ CITATION.cff
 ```
 
 ---
+
+## Literature and correlation priors
+
+| Document | Purpose |
+|----------|---------|
+| [`docs/LITERATURE_SOURCES.md`](docs/LITERATURE_SOURCES.md) | CSV → paper mapping, DOIs, sturgeon transfer refs |
+| [`docs/CORRELATION_PRIORS.md`](docs/CORRELATION_PRIORS.md) | Why copula *r* values are structural priors |
+| [`docs/references.bib`](docs/references.bib) | BibTeX for dissertation |
+| [`src/caspian_fish_quality/data/correlation_priors.yaml`](src/caspian_fish_quality/data/correlation_priors.yaml) | Machine-readable correlation pairs |
 
 ## Citing
 

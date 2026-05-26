@@ -44,8 +44,8 @@ def merge_static(synthetic_dict: dict[int, pd.DataFrame]) -> pd.DataFrame:
         lambda left, right: left.merge(right, on=["group", "sample_id"], how="outer"),
         frames,
     )
-    merged = merged.drop(columns=["sample_id"])
-    cols = ["group", *[c for c in merged.columns if c != "group"]]
+    merged = merged.sort_values(["group", "sample_id"]).reset_index(drop=True)
+    cols = ["group", "sample_id", *[c for c in merged.columns if c not in ("group", "sample_id")]]
     return cast("pd.DataFrame", merged[cols])
 
 

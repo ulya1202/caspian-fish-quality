@@ -2,7 +2,7 @@
 
 ## Synthetic data only
 
-No live fish were sampled. All numbers come from Gaussian-copula (NORTA) sampling of *Silurus glanis* priors extracted from six literature tables (`src/caspian_fish_quality/data/literature/data_1.csv`–`data_6.csv`). Small source studies (often N = 6–50) limit how faithfully marginals and correlations are recovered.
+No live fish were sampled. Marginal priors come from six CSV tables (`data_1.csv`–`data_6.csv`), all extracted from **Simeanu et al. (2022)** (*Agriculture* 12(12):2144, [DOI 10.3390/agriculture12122144](https://doi.org/10.3390/agriculture12122144)). Copula correlation targets are **structural priors** in `data/correlation_priors.yaml` (see `docs/CORRELATION_PRIORS.md`), not a published full correlation matrix. Small source studies (often N = 6–50 per cell) limit how faithfully marginals and correlations are recovered.
 
 ## Cross-species transfer
 

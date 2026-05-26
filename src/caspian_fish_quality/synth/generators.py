@@ -1,15 +1,9 @@
 """Master synthetic-data orchestrator over the six literature tables.
 
-Three table parsers (``A`` static traits, ``B`` time-series storage,
-``C`` fatty-acid composition) extract per-feature ``mean``, ``sd``,
-``min``, and ``max`` priors. Pearson correlation matrices are assembled
-from literature pairs in :func:`get_correlations` /
-:func:`get_storage_correlations` and PSD-projected before NORTA sampling.
-
-Correlation priors are drawn from peer-reviewed *Silurus glanis*
-literature (Bergstrom et al. 2022; Yazici & Yazicioglu 2020;
-Simeanu et al. 2022; Ljubojevic et al. 2013; Jankowska et al. 2007;
-Hallier et al. 2007).
+Marginal priors (mean, SD, min, max) are extracted from bundled CSV files
+derived from Simeanu et al. (2022); see ``docs/LITERATURE_SOURCES.md``.
+Pearson *r* targets for the Gaussian copula are structural priors in
+``data/correlation_priors.yaml`` (see ``docs/CORRELATION_PRIORS.md``).
 """
 
 from __future__ import annotations
@@ -22,6 +16,10 @@ import numpy as np
 import pandas as pd
 
 from caspian_fish_quality.synth.copula import build_corr, copula_generate
+from caspian_fish_quality.synth.correlation_loader import (
+    get_correlations,
+    get_storage_correlations,
+)
 
 _NUM_LIKE = re.compile(r"^[\d\s.,+-]+$")
 _DATE_LIKE = re.compile(r"(\d{4})-(\d{2})-(\d{2})")
@@ -428,97 +426,6 @@ def parse_type_c(df: pd.DataFrame) -> dict[str, pd.DataFrame]:
             result[group] = pd.DataFrame(rows)
 
     return result
-
-
-def get_correlations() -> dict[int, dict[tuple[str, str], float]]:
-    """Literature-based Pearson correlation priors per source table.
-
-    Returns
-    -------
-    dict[int, dict[tuple[str, str], float]]
-        Maps table id (1, 2, 3, 6) to a sparse pair-correlation dictionary.
-    """
-    C: dict[int, dict[tuple[str, str], float]] = {}
-    C[1] = {
-        ("bodymass", "totallength"): 0.95,
-        ("bodymass", "standardlength"): 0.94,
-        ("bodymass", "headlength"): 0.90,
-        ("bodymass", "bodymaximumheight"): 0.88,
-        ("bodymass", "bodymaximumcircumference"): 0.92,
-        ("bodymass", "bodymaximumthickness"): 0.83,
-        ("totallength", "standardlength"): 0.98,
-        ("totallength", "headlength"): 0.92,
-        ("totallength", "bodymaximumheight"): 0.85,
-        ("totallength", "bodymaximumcircumference"): 0.87,
-        ("totallength", "bodymaximumthickness"): 0.80,
-        ("standardlength", "headlength"): 0.90,
-        ("standardlength", "bodymaximumheight"): 0.84,
-        ("standardlength", "bodymaximumcircumference"): 0.86,
-        ("standardlength", "bodymaximumthickness"): 0.79,
-        ("headlength", "bodymaximumheight"): 0.78,
-        ("headlength", "bodymaximumcircumference"): 0.80,
-        ("headlength", "bodymaximumthickness"): 0.75,
-        ("bodymaximumheight", "bodymaximumcircumference"): 0.90,
-        ("bodymaximumheight", "bodymaximumthickness"): 0.88,
-        ("bodymaximumcircumference", "bodymaximumthickness"): 0.85,
-    }
-    C[2] = {
-        ("profileindex", "fultoncoefficient"): -0.60,
-        ("profileindex", "fleshyindex"): 0.40,
-        ("fultoncoefficient", "qualityindex"): 0.70,
-        ("fultoncoefficient", "thicknessindex"): 0.55,
-        ("fultoncoefficient", "fleshyindex"): 0.20,
-        ("qualityindex", "fleshyindex"): 0.30,
-        ("qualityindex", "thicknessindex"): 0.45,
-        ("thicknessindex", "fleshyindex"): 0.25,
-        ("profileindex", "qualityindex"): -0.35,
-        ("profileindex", "thicknessindex"): -0.30,
-    }
-    C[3] = {
-        ("livemass", "carcassmass"): 0.98,
-        ("livemass", "torsomass"): 0.95,
-        ("livemass", "filletmass"): 0.93,
-        ("carcassmass", "torsomass"): 0.96,
-        ("carcassmass", "filletmass"): 0.94,
-        ("torsomass", "filletmass"): 0.97,
-        ("carcassyield", "torsoyield"): 0.50,
-        ("carcassyield", "filletyield"): 0.55,
-        ("torsoyield", "filletyield"): 0.75,
-        ("livemass", "carcassyield"): 0.20,
-        ("livemass", "filletyield"): 0.25,
-        ("carcassmass", "carcassyield"): 0.30,
-        ("filletmass", "filletyield"): 0.40,
-    }
-    C[6] = {
-        ("c14:0", "c16:0"): 0.60,
-        ("c16:0", "c18:0"): 0.55,
-        ("c14:0", "c18:0"): 0.40,
-        ("c16:0", "c16:1"): 0.50,
-        ("c18:0", "c18:1"): -0.30,
-        ("c16:1", "c18:1"): 0.65,
-        ("c18:2", "c18:3"): 0.45,
-        ("c18:2", "c20:4"): 0.35,
-        ("c18:3", "c20:5"): 0.40,
-        ("c20:5", "c22:6"): 0.70,
-        ("c20:5", "c22:5"): 0.60,
-        ("c16:0", "c18:2"): -0.35,
-        ("c16:0", "c22:6"): -0.25,
-        ("c18:1", "c18:2"): -0.40,
-        ("c18:1", "c22:6"): -0.30,
-    }
-    return C
-
-
-def get_storage_correlations() -> dict[tuple[str, str], float]:
-    """Literature-based correlation priors for storage stability columns."""
-    return {
-        ("losses", "water"): 0.80,
-        ("proteins", "lipids"): -0.35,
-        ("proteins", "water"): 0.30,
-        ("lipids", "water"): -0.50,
-        ("ash", "proteins"): 0.20,
-        ("ash", "lipids"): -0.15,
-    }
 
 
 def calc_yields(df: pd.DataFrame) -> pd.DataFrame:

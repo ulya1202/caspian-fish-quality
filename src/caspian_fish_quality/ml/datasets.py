@@ -9,13 +9,13 @@ Three responsibilities:
 3. Run the leakage-free experiment grid (:func:`run_experiment`,
    :func:`run_all`).
 
-Biological relationships encoded in :func:`generate_phd_dataset`:
+Mechanistic directions in :func:`generate_phd_dataset` (separate from copula CSV
+marginals; see ``docs/LITERATURE_SOURCES.md`` → ``phd_mechanistic``):
 
-* Temperature -> lipid (+) (Hallier et al., 2007)
-* Dissolved oxygen -> protein (+) (Huss, 1995, FAO Fish. Tech. Paper 348)
-* Temperature -> body mass (+) (Simeanu et al., 2022)
-* NH4+ -> protein (-) (ammonia toxicity, protein catabolism)
-* Feed type -> lipid (+) (Jankowska et al., 2007)
+* Temperature → lipid (+) — Hallier et al. (2007), https://doi.org/10.1002/jsfa.2779
+* Dissolved oxygen → protein (+) — Huss (1995), FAO Fish. Tech. Paper 348
+* Feed type → lipid (+) — Jankowska et al. (2006), https://doi.org/10.1007/s00217-006-0348-9
+* AG vs RG water priors — Simeanu et al. (2022), https://doi.org/10.3390/agriculture12122144
 """
 
 from __future__ import annotations
@@ -114,8 +114,16 @@ def generate_phd_dataset(n_per_group: int = 1000, seed: int = 42) -> pd.DataFram
         )
 
     df = pd.concat([_gen("AG", n_per_group), _gen("RG", n_per_group)], ignore_index=True)
+    df["sample_id"] = df.groupby("Group").cumcount().astype(int)
     df.insert(0, "Fish_ID", range(1, len(df) + 1))
     return df
+
+
+def _ensure_sample_id(df: pd.DataFrame, group_col: str) -> pd.DataFrame:
+    out = df.copy()
+    if "sample_id" not in out.columns:
+        out["sample_id"] = out.groupby(group_col).cumcount().astype(int)
+    return out
 
 
 def prepare_full_dataset(
@@ -125,7 +133,7 @@ def prepare_full_dataset(
     *,
     null_thresh: float = 0.3,
 ) -> pd.DataFrame:
-    """Concatenate PHD + static + storage; drop high-null cols; encode group.
+    """Merge PHD water-quality rows with copula static/storage traits by group + sample_id.
 
     Parameters
     ----------
@@ -141,14 +149,29 @@ def prepare_full_dataset(
     Returns
     -------
     pandas.DataFrame
+        One row per virtual individual; ``Group`` is AG/RG (same codes as ``group`` in merges).
     """
-    full = pd.concat(
-        [
-            phd_df,
-            static_df.drop(columns=["group"], errors="ignore"),
-            storage_df.drop(columns=["group"], errors="ignore"),
-        ],
-        axis=1,
+    phd = _ensure_sample_id(phd_df, "Group")
+    static = _ensure_sample_id(static_df, "group")
+    storage = _ensure_sample_id(storage_df, "group")
+
+    static_renamed = static.rename(columns={"group": "Group"})
+    storage_renamed = storage.rename(columns={"group": "Group"})
+
+    static_cols = [c for c in static_renamed.columns if c not in ("Group", "sample_id")]
+    storage_cols = [c for c in storage_renamed.columns if c not in ("Group", "sample_id")]
+
+    full = phd.merge(
+        static_renamed[["Group", "sample_id", *static_cols]],
+        on=["Group", "sample_id"],
+        how="inner",
+        validate="one_to_one",
+    )
+    full = full.merge(
+        storage_renamed[["Group", "sample_id", *storage_cols]],
+        on=["Group", "sample_id"],
+        how="left",
+        validate="one_to_one",
     )
     full = full.drop(columns=[c for c in full.columns if full[c].isna().mean() > null_thresh])
     full = full.fillna(full.median(numeric_only=True))
